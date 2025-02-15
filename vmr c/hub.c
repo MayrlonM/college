@@ -5,22 +5,23 @@
 #include <stdlib.h>
 
 int main(){
-    int hub(){
+    int menu() {
+    int escolha;
+    printf("//- Gestão dos Correios -//\n");
+    printf("Pressione o número correspondente à opção desejada.\n");
+    printf("[1] Veículos\n");
+    printf("[2] Entregas\n");
+    printf("[3] Funcionários\n");
+    printf("[4] Clientes\n");
 
-        int escolha;
+    scanf("%d", &escolha);
 
-        printf("1- clientes \n2- funcionarios \n3- veículos \n4- entregas \n");
-        printf("qual deseja verificar? \n");
-        scanf(":%d \n",&escolha);
-        if (escolha>1 || escolha<4){
-            printf("a");
-        }
-
-        else {
-            printf("guei");
-        }   
-
+    switch (escolha) {
+        case 1: g_veiculos(); break;
+        case 2: g_entregas(); break;
+        case 3: g_funcionarios(); break;
+        case 4: g_clientes(); break;
+        default: printf("Opção inválida!\n");
     }
-
-return 0;
+    return 0;
 }
