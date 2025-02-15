@@ -49,11 +49,18 @@ void deletarVeiculo();
 void salvarVeiculos();
 void carregarVeiculos();
 
-void adicionarEntrega();
-void visualizarEntregas();
-void gerarRelatorioEntregas();
-void salvarEntregas();
-void carregarEntregas();
+// Funções para manipular entregas
+void Id_entrega();
+void Origem_entrega();
+void Chegada_entrega();
+void Tempo_entrega();
+
+// Funções auxiliares para ID
+void id_criar();
+void id_deletar();
+void id_modificar();
+void id_visualizar();
+
 
 void adicionarFuncionario();
 void visualizarFuncionarios();
