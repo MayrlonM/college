@@ -20,12 +20,12 @@ typedef struct {
     char origem[100];
     char destino[100];
     float tempoEstimado; // em horas
-} Entrega;
+} entrega;
 
 typedef struct {
     int id;
     char nome[100];
-} Funcionario;
+} funcionarios;
 
 typedef struct {
     int id;
@@ -35,8 +35,8 @@ typedef struct {
 } Cliente;
 
 Veiculo veiculos[MAX_VEICULOS];
-Entrega entregas[MAX_ENTREGAS];
-Funcionario funcionarios[MAX_FUNCIONARIOS];
+entregas entregas[MAX_ENTREGAS];
+funcionarios funcionarios[MAX_FUNCIONARIOS];
 Cliente clientes[MAX_CLIENTES];
 
 int numVeiculos = 0, numEntregas = 0, numFuncionarios = 0, numClientes = 0;
@@ -83,7 +83,7 @@ int menu();
 
 
 // Verifica se o ID já existe
-int id_existe(int id) {
+int id_existe_entregas(int id) {
     FILE *arq = fopen("entregas.bin", "rb");
     if (arq == NULL) {
         return 0; // Arquivo não existe, logo ID não existe
@@ -134,23 +134,25 @@ void Id_entrega() {
 }
 
 // Criar ID único e armazená-lo
-void id_criar() {
+void id_criar_entregas() {
     entrega novo;
     FILE *arq;
 
     printf("Insira o ID da entrega (precisa ser único): ");
     scanf("%d", &novo.id);
 
-    while (id_existe(novo.id)) {
+    while (id_existe_entregas(novo.id)) {
         printf("Esse ID já foi usado, tente outro!\n");
         scanf("%d", &novo.id);
     }
 
     printf("Insira a origem da entrega: ");
-    scanf("%s", novo.origem);
+    getchar(); 
+    fgets(novo.origem, sizeof(novo.origem), stdin);
 
     printf("Insira o destino da entrega: ");
-    scanf("%s", novo.chegada);
+     getchar(); 
+    fgets(novo.destino, sizeof(novo.destino), stdin);
 
     printf("Insira o tempo estimado (em horas): ");
     scanf("%f", &novo.tempoEstimado);
@@ -167,7 +169,7 @@ void id_criar() {
     printf("O ID foi salvo com sucesso!\n");
 }
 
- void id_deletar(){
+ void id_deletar_entregas(){
     int id_procurado;
     printf("Insira o ID que queira remover.");
     scanf("%d", &id_procurado);
@@ -217,7 +219,7 @@ void id_criar() {
     }
 
 }
-void id_modificar(){
+void id_modificar_entregas(){
     int id;
     entrega e;
     FILE *arq = fopen("entregas.bin", "r+b");  // Abre o arquivo em modo de leitura e escrita binária
@@ -243,9 +245,12 @@ void id_modificar(){
             printf("id encontrado: \n");
             printf(" ID: %d\n", e.id);
             
-            printf("Insira o novo ID (precisa ser unico): ");
-            scanf("%d", &e.id);
-            printf("origem: %s \n destino: %s \n ", e.origem, e.chegada);
+            int id_antigo = e.id;
+do {
+    printf("Insira o novo ID (precisa ser único): ");
+    scanf("%d", &e.id);
+} while (e.id != id_antigo && id_existe_entregas(e.id));
+            printf("origem: %s \n destino: %s \n ", e.origem, e.destino);
             // Verificar se o novo ID já existe
             while (id_existe(e.id)) {
                 printf("Esse ID ja foi usado, tente outro!\n");
@@ -253,11 +258,12 @@ void id_modificar(){
             }
 
             printf("Insira o novo local de origem e chegada: ");
+            getchar();
             fgets(e.origem, sizeof(e.origem), stdin);
             fgets(e.chegada, sizeof(e.chegada), stdin);
             printf("Aqui estão os novos dados inseridos. esta tudo certo? 1 para sim, 2 para nao.\n");
             printf(" ID: %d\n",e.id);
-            printf("origem: %s \n destino: %s \n ", e.origem, e.chegada);
+            printf("origem: %s \n destino: %s \n ", e.origem, e.destino);
 
         
             int num;
@@ -295,7 +301,7 @@ void entrega_visualizar(){
     while (fread(&e, sizeof(entrega), 1, arq) == 1) {
         if(id == e.id){
             encontrado = 1;
-            printf("origem: %s \n chegada: %s \n ID: %d\n tempo estimado: %f",e.origem,  e.chegada, e.id, e.tempoEstimado);
+            printf("origem: %s \n chegada: %s \n ID: %d\n tempo estimado: %.2f\n",e.origem,  e.destino, e.id, e.tempoEstimado);
             break;
         }
     }
@@ -304,7 +310,7 @@ void entrega_visualizar(){
         fseek(arq, 0, SEEK_SET);
         while(fread(&e, sizeof(entrega), 1, arq) == 1) {
             printf("ID: %d\n", e.id);
-            printf("origem: %s \n chegada: %s \n tempo estimado: %.2f", e.origem,  e.chegada, e.tempoEstimado);
+            printf("origem: %s \n chegada: %s \n tempo estimado: %.2f", e.origem,  e.destino, e.tempoEstimado);
         }
     }
     fclose(arq);
@@ -314,7 +320,7 @@ void entrega_visualizar(){
 
 
 // Verifica se o ID já existe
-int id_existe(int id) {
+int id_existe_funcionarios(int id) {
     FILE *arq = fopen("funcionarios.bin", "rb");
     if (arq == NULL) {
         return 0; // Arquivo não existe, logo ID não existe
@@ -364,14 +370,14 @@ void Id_funcionarios() {
 }
 
 // Criar ID único e armazená-lo
-void id_criar() {
+void id_criar_funcionarios() {
     funcionarios novo;
     FILE *arq;
 
     printf("Insira o ID do funcionarios (precisa ser único): ");
     scanf("%d", &novo.id);
 
-    while (id_existe(novo.id)) {
+    while (id_existe_funcionarios(novo.id)) {
         printf("Esse ID já foi usado, tente outro!\n");
         scanf("%d", &novo.id);
     }
@@ -392,7 +398,7 @@ void id_criar() {
     printf("O ID foi salvo com sucesso!\n");
 }
 
- void id_deletar(){
+ void id_deletar_funcionarios(){
     int id_procurado;
     printf("Insira o ID que queira remover.");
     scanf("%d", &id_procurado);
@@ -442,7 +448,7 @@ void id_criar() {
     }
 
 }
-void id_modificar(){
+void id_modificar_funcionarios(){
     int id;
     funcionarios e;
     FILE *arq = fopen("funcionarios.bin", "r+b");  // Abre o arquivo em modo de leitura e escrita binária
@@ -470,12 +476,14 @@ void id_modificar(){
             
             printf("Insira o novo ID (precisa ser unico): ");
             scanf("%d", &e.id);
-            printf("novo nome: %s \n ", e.nome);
-            // Verificar se o novo ID já existe
-            while (id_existe(e.id)) {
-                printf("Esse ID ja foi usado, tente outro!\n");
-                scanf("%d", &e.id);
-            }
+           printf("Digite o novo nome: ");
+            getchar(); // Limpa buffer do Enter anterior
+            fgets(e.nome, sizeof(e.nome), stdin);
+            int id_antigo = e.id;
+do {
+    printf("Insira o novo ID (precisa ser único): ");
+    scanf("%d", &e.id);
+} while (e.id != id_antigo && id_existe_funcionarios(e.id));
 
            
             printf("Aqui estão os novos dados inseridos. esta tudo certo? 1 para sim, 2 para nao.\n");
@@ -525,7 +533,7 @@ void funcionarios_visualizar(){
     if(encontrado == 0){
         printf("funcionario com ID nao encontrado, listando todos\n");
         fseek(arq, 0, SEEK_SET);
-        while(fread(&e, sizeof(funcionarios), 1, arq) == 1) {
+        while(fread(&e, sizeof(funcionario), 1, arq) == 1) {
             printf("ID: %d\n", e.id);
             printf("nome: %s \n", e.nome);
         }
