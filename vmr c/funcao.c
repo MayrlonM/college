@@ -313,3 +313,234 @@ void entrega_visualizar(){
     }
     fclose(arq);
 }
+// funcionarios
+
+// Funções para manipular funcionarios
+void Id_funcionarios();
+void nome_funcionarios();
+void funcionarios_visualizar();
+// Funções auxiliares para ID
+void id_criar();
+void id_deletar();
+void id_modificar();
+void id_visualizar();
+
+// Verifica se o ID já existe
+int id_existe(int id) {
+    FILE *arq = fopen("funcionarios.bin", "rb");
+    if (arq == NULL) {
+        return 0; // Arquivo não existe, logo ID não existe
+    }
+
+    funcionarios e;
+    while (fread(&e, sizeof(funcionarios), 1, arq) == 1) {
+        if (id == e.id) {
+            fclose(arq);
+            return 1; // ID já existe
+        }
+    }
+    fclose(arq);
+    return 0; // ID não encontrado
+}
+
+// Menu principal
+int g_funcionarios() {
+    int escolha;
+    printf("[1] ID do funcionario\n");
+    printf("[2] nome do funcionario\n");
+   
+    scanf("%d", &escolha);    
+
+    switch (escolha) {
+        case 1: Id_funcionarios(); break;
+        case 2: nome_funcionarios(); break;
+        default: printf("Opção inválida!\n");
+    }
+    return 0;
+}
+
+// Menu para ID
+void Id_funcionarios() {
+    int escolha;
+    printf("[1] Criar ID\n");
+    printf("[2] Deletar ID\n");
+    printf("[3] Modificar ID\n");
+    scanf("%d", &escolha);    
+
+    switch (escolha) {
+        case 1: id_criar(); break;
+        case 2: id_deletar(); break;
+        case 3: id_modificar(); break;
+        default: printf("Opção inválida!\n");
+    }
+}
+
+// Criar ID único e armazená-lo
+void id_criar() {
+    funcionarios novo;
+    FILE *arq;
+
+    printf("Insira o ID do funcionarios (precisa ser único): ");
+    scanf("%d", &novo.id);
+
+    while (id_existe(novo.id)) {
+        printf("Esse ID já foi usado, tente outro!\n");
+        scanf("%d", &novo.id);
+    }
+
+    printf("Insira o nome do funcionario: ");
+    scanf("%s", novo.nome);
+
+
+    arq = fopen("funcionarios.bin", "ab");
+    if (arq == NULL) {
+        printf("Erro ao abrir o arquivo!\n");
+        return;
+    }
+
+    fwrite(&novo, sizeof(funcionarios), 1, arq);
+    fclose(arq);
+
+    printf("O ID foi salvo com sucesso!\n");
+}
+
+ void id_deletar(){
+    int id_procurado;
+    printf("Insira o ID que queira remover.");
+    scanf("%d", &id_procurado);
+    FILE *arq = fopen("funcionarios.bin", "rb");  // Abre o arquivo original para leitura
+    if (arq == NULL) {
+        printf("Erro ao abrir o arquivo original");
+        return;
+    }
+
+    FILE *arq_temp = fopen("temp.bin", "wb");  // Abre um arquivo temporário para escrita
+    if (arq_temp == NULL) {
+        printf("Erro ao abrir o arquivo temporário");
+        fclose(arq);
+        return;
+    }
+
+    funcionarios e;
+    int encontrado = 0;
+
+   
+    while (fread(&e, sizeof(funcionarios), 1, arq) == 1) {
+        if (e.id == id_procurado) {
+            // Se o ID for o procurado, nao copia para o arquivo temporário (remoção)
+            printf("ID %d removido.\n", e.id);
+            encontrado = 1;
+        } else {
+          
+            fwrite(&e, sizeof(funcionarios), 1, arq_temp);
+        }
+    }
+
+    if (!encontrado) {
+        printf("ID %d nao encontrado.\n", id_procurado);
+    }
+
+    fclose(arq);
+    fclose(arq_temp);
+
+    if (remove("funcionarios.bin") != 0) {
+        printf("Erro ao remover o arquivo original");
+        return;
+    }
+
+    if (rename("temp.bin", "funcionarios.bin") != 0) {
+        printf("Erro ao renomear o arquivo temporário");
+        return;
+    }
+
+}
+void id_modificar(){
+    int id;
+    funcionarios e;
+    FILE *arq = fopen("funcionarios.bin", "r+b");  // Abre o arquivo em modo de leitura e escrita binária
+
+    // Verificação de abertura do arquivo
+    if (arq == NULL) {
+        printf("Erro ao abrir o arquivo\n");
+        return;
+    }
+
+   
+    printf("Insira o ID que queira editar: ");
+    scanf("%d", &id);
+
+   
+    int encontrado = 0;
+
+   
+    while (fread(&e, sizeof(funcionarios), 1, arq) == 1) {
+        if (id == e.id) {
+            encontrado = 1;
+
+            printf("id encontrado: \n");
+            printf(" ID: %d\n", e.id);
+            
+            printf("Insira o novo ID (precisa ser unico): ");
+            scanf("%d", &e.id);
+            printf("novo nome: %s \n ", e.nome);
+            // Verificar se o novo ID já existe
+            while (id_existe(e.id)) {
+                printf("Esse ID ja foi usado, tente outro!\n");
+                scanf("%d", &e.id);
+            }
+
+           
+            printf("Aqui estão os novos dados inseridos. esta tudo certo? 1 para sim, 2 para nao.\n");
+            printf(" ID: %d\n",e.id);
+            printf("novo nome: %s \n", e.nome);
+
+        
+            int num;
+            scanf("%d", &num);
+
+            if (num == 1) {
+                fseek(arq, -(long)sizeof(funcionarios), SEEK_CUR);
+                fwrite(&e, sizeof(funcionarios), 1, arq);
+                printf("O foi atualizado com sucesso!\n");
+            } else {
+                printf("A operação de atualização foi cancelada.\n");
+            }
+        }
+    }
+
+    if (!encontrado) {
+        printf(" ID %d nao encontrado.\n", id);
+        }
+    
+
+    fclose(arq);
+}
+void funcionarios_visualizar(){
+    int id;
+    int encontrado = 0;
+    funcionarios e;
+    FILE *arq = fopen("funcionarios.bin", "rb");
+    if (arq == NULL) {
+    printf("Erro ao abrir o arquivo");
+    return;
+    }
+
+    printf("Insira o ID a ser pesquisado:");
+    scanf("%d", &id);
+    while (fread(&e, sizeof(funcionarios), 1, arq) == 1) {
+        if(id == e.id){
+            encontrado = 1;
+            printf("nome: %s \n ID: %d\n ",e.nome,  e.id);
+            break;
+        }
+    }
+    if(encontrado == 0){
+        printf("funcionario com ID nao encontrado, listando todos\n");
+        fseek(arq, 0, SEEK_SET);
+        while(fread(&e, sizeof(funcionarios), 1, arq) == 1) {
+            printf("ID: %d\n", e.id);
+            printf("nome: %s \n", e.nome);
+        }
+    }
+    fclose(arq);
+}
