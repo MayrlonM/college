@@ -249,7 +249,7 @@ do {
 } while (e.id != id_antigo && id_existe_entregas(e.id));
             printf("origem: %s \n destino: %s \n ", e.origem, e.destino);
             // Verificar se o novo ID já existe
-            while (id_existe(e.id)) {
+            while (id_existe_entregas(e.id)) {
                 printf("Esse ID ja foi usado, tente outro!\n");
                 scanf("%d", &e.id);
             }
