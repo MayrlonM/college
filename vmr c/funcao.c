@@ -51,9 +51,7 @@ void carregarVeiculos();
 
 // Funções para manipular entregas
 void Id_entrega();
-void Origem_entrega();
-void Chegada_entrega();
-void Tempo_entrega();
+
 
 // Funções auxiliares para ID
 void id_criar();
@@ -61,11 +59,17 @@ void id_deletar();
 void id_modificar();
 void id_visualizar();
 
+// Funções para manipular funcionarios
+void Id_funcionarios();
+void nome_funcionarios();
+void funcionarios_visualizar();
 
-void adicionarFuncionario();
-void visualizarFuncionarios();
-void salvarFuncionarios();
-void carregarFuncionarios();
+// Funções auxiliares para ID
+void id_criar();
+void id_deletar();
+void id_modificar();
+void id_visualizar();
+
 
 void adicionarCliente();
 void visualizarClientes();
@@ -76,15 +80,7 @@ int menu();
 
 // entregas
 
-// Funções para manipular entregas
-void Id_entrega();
 
-
-// Funções auxiliares para ID
-void id_criar();
-void id_deletar();
-void id_modificar();
-void id_visualizar();
 
 // Verifica se o ID já existe
 int id_existe(int id) {
@@ -315,15 +311,7 @@ void entrega_visualizar(){
 }
 // funcionarios
 
-// Funções para manipular funcionarios
-void Id_funcionarios();
-void nome_funcionarios();
-void funcionarios_visualizar();
-// Funções auxiliares para ID
-void id_criar();
-void id_deletar();
-void id_modificar();
-void id_visualizar();
+
 
 // Verifica se o ID já existe
 int id_existe(int id) {
