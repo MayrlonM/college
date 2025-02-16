@@ -148,7 +148,7 @@ void id_criar_entregas() {
     fgets(novo.origem, sizeof(novo.origem), stdin);
 
     printf("Insira o destino da entrega: ");
-     getchar(); 
+    
     fgets(novo.destino, sizeof(novo.destino), stdin);
 
     printf("Insira o tempo estimado (em horas): ");
