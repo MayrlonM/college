@@ -51,24 +51,23 @@ void carregarVeiculos();
 
 // Funções para manipular entregas
 void Id_entrega();
-
+void entrega_visualizar();
 
 // Funções auxiliares para ID
-void id_criar();
-void id_deletar();
-void id_modificar();
-void id_visualizar();
+void id_criar_entregas();
+void  id_deletar_entregas();
+void id_modificar_entregas();
+
 
 // Funções para manipular funcionarios
 void Id_funcionarios();
-void nome_funcionarios();
 void funcionarios_visualizar();
 
 // Funções auxiliares para ID
-void id_criar();
-void id_deletar();
-void id_modificar();
-void id_visualizar();
+void id_criar_funcionarios();
+void id_deletar_funcionarios();
+void id_modificar_funcionarios();
+void id_visualizar_funcionarios();
 
 
 void adicionarCliente();
@@ -104,14 +103,12 @@ int id_existe_entregas(int id) {
 int g_entregas() {
     int escolha;
     printf("[1] ID da entrega\n");
-    printf("[2] Origem\n");
-    printf("[3] Destino\n");
-    printf("[4] Tempo estimado\n");
+    printf("[2] visualizar\n");
     scanf("%d", &escolha);    
 
     switch (escolha) {
         case 1: Id_entrega(); break;
-  
+        case 2: entrega_visualizar(); break;
         default: printf("Opção inválida!\n");
     }
     return 0;
@@ -120,15 +117,15 @@ int g_entregas() {
 // Menu para ID
 void Id_entrega() {
     int escolha;
-    printf("[1] Criar ID\n");
-    printf("[2] Deletar ID\n");
-    printf("[3] Modificar ID\n");
+    printf("[1] Criar \n");
+    printf("[2] Deletar \n");
+    printf("[3] Modificar \n");
     scanf("%d", &escolha);    
 
     switch (escolha) {
-        case 1: id_criar(); break;
-        case 2: id_deletar(); break;
-        case 3: id_modificar(); break;
+        case 1: id_criar_entregas(); break;
+        case 2:  id_deletar_entregas(); break;
+        case 3: id_modificar_entregas(); break;
         default: printf("Opção inválida!\n");
     }
 }
@@ -340,14 +337,14 @@ int id_existe_funcionarios(int id) {
 // Menu principal
 int g_funcionarios() {
     int escolha;
-    printf("[1] ID do funcionario\n");
-    printf("[2] nome do funcionario\n");
+    printf("[1] funcionario\n");
+    printf("[2] visualizar funcionario\n");
    
     scanf("%d", &escolha);    
 
     switch (escolha) {
         case 1: Id_funcionarios(); break;
-        case 2: nome_funcionarios(); break;
+        case 2:  funcionarios_visualizar(); break;
         default: printf("Opção inválida!\n");
     }
     return 0;
@@ -362,9 +359,9 @@ void Id_funcionarios() {
     scanf("%d", &escolha);    
 
     switch (escolha) {
-        case 1: id_criar(); break;
-        case 2: id_deletar(); break;
-        case 3: id_modificar(); break;
+        case 1: id_criar_funcionarios(); break;
+        case 2: id_deleta_funcionariosr(); break;
+        case 3: id_modificar_funcionarios(); break;
         default: printf("Opção inválida!\n");
     }
 }
