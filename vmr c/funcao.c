@@ -257,7 +257,7 @@ do {
             printf("Insira o novo local de origem e chegada: ");
             getchar();
             fgets(e.origem, sizeof(e.origem), stdin);
-            fgets(e.chegada, sizeof(e.chegada), stdin);
+            fgets(e.destino, sizeof(e.destino), stdin);
             printf("Aqui estão os novos dados inseridos. esta tudo certo? 1 para sim, 2 para nao.\n");
             printf(" ID: %d\n",e.id);
             printf("origem: %s \n destino: %s \n ", e.origem, e.destino);
@@ -360,7 +360,7 @@ void Id_funcionarios() {
 
     switch (escolha) {
         case 1: id_criar_funcionarios(); break;
-        case 2: id_deleta_funcionariosr(); break;
+        case 2: id_deleta_funcionarios(); break;
         case 3: id_modificar_funcionarios(); break;
         default: printf("Opção inválida!\n");
     }
