@@ -102,8 +102,8 @@ int id_existe_entregas(int id) {
 // Menu principal
 int g_entregas() {
     int escolha;
-    printf("[1] ID da entrega\n");
-    printf("[2] visualizar\n");
+    printf("[1] entregas\n");
+    printf("[2] visualizar entregas\n");
     scanf("%d", &escolha);    
 
     switch (escolha) {
