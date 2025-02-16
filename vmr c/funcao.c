@@ -312,3 +312,4 @@ void entrega_visualizar(){
         }
     }
     fclose(arq);
+}
